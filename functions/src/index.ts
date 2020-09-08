@@ -1,1 +1,11 @@
 import * as functions from "firebase-functions";
+
+// auth trigger - new user signup
+exports.newUserSignup = functions.auth.user().onCreate((user) => {
+  console.log("user created", user.email, user.uid);
+});
+
+// auth trigger - user deleted
+exports.userDeleted = functions.auth.user().onDelete((user) => {
+  console.log("user deleted", user.email, user.uid);
+});
