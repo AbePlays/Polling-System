@@ -12,3 +12,11 @@ requestModal.addEventListener("click", (e: Event) => {
     requestModal.classList.remove("open");
   }
 });
+
+// say hello
+const button = document.querySelector(".call") as HTMLButtonElement;
+button.addEventListener("click", () => {
+  // @ts-ignore
+  const sayHello = firebase.functions().httpsCallable("sayHello");
+  sayHello({ name: "Abe" }).then((res) => console.log(res.data));
+});

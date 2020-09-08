@@ -10,3 +10,9 @@ exports.randomNumber = functions.https.onRequest((req, res) => {
 exports.lesgo = functions.https.onRequest((req, res) => {
   res.redirect("https://abeplays.github.io");
 });
+
+// https callable function
+exports.sayHello = functions.https.onCall((data, context) => {
+  const name: String = data.name;
+  return `Hello ${name}`;
+});
