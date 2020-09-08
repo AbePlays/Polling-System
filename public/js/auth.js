@@ -23,7 +23,22 @@ registerForm.addEventListener("submit", function (e) {
         console.log("User registered", user);
         registerForm.reset();
     })["catch"](function (e) {
-        console.log(e);
         registerForm.querySelector(".error").textContent = e.message;
+    });
+});
+// login user
+loginForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var email = loginForm.email.value;
+    var password = loginForm.password.value;
+    // @ts-ignore
+    firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(function (user) {
+        console.log("User logged in", user);
+        registerForm.reset();
+    })["catch"](function (e) {
+        loginForm.querySelector(".error").textContent = e.message;
     });
 });

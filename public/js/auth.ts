@@ -16,8 +16,8 @@ authSwitchLinks.forEach((link) => {
 registerForm.addEventListener("submit", (e: Event) => {
   e.preventDefault();
 
-  const email = registerForm.email.value;
-  const password = registerForm.password.value;
+  const email: String = registerForm.email.value;
+  const password: String = registerForm.password.value;
   // @ts-ignore
   firebase
     .auth()
@@ -28,5 +28,24 @@ registerForm.addEventListener("submit", (e: Event) => {
     })
     .catch((e) => {
       registerForm.querySelector(".error").textContent = e.message;
+    });
+});
+
+// login user
+loginForm.addEventListener("submit", (e: Event) => {
+  e.preventDefault();
+
+  const email: String = loginForm.email.value;
+  const password: String = loginForm.password.value;
+  // @ts-ignore
+  firebase
+    .auth()
+    .signInWithEmailAndPassword(email, password)
+    .then((user) => {
+      console.log("User logged in", user);
+      registerForm.reset();
+    })
+    .catch((e) => {
+      loginForm.querySelector(".error").textContent = e.message;
     });
 });
