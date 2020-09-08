@@ -20,7 +20,6 @@ registerForm.addEventListener("submit", function (e) {
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then(function (user) {
-        console.log("User registered", user);
         registerForm.reset();
     })["catch"](function (e) {
         registerForm.querySelector(".error").textContent = e.message;
@@ -36,9 +35,30 @@ loginForm.addEventListener("submit", function (e) {
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then(function (user) {
-        console.log("User logged in", user);
         registerForm.reset();
     })["catch"](function (e) {
         loginForm.querySelector(".error").textContent = e.message;
     });
+});
+// signout user
+signOut.addEventListener("click", function () {
+    //@ts-ignore
+    firebase
+        .auth()
+        .signOut()
+        .then(function () { return console.log("Signed Out"); });
+});
+// listening to auth state changes
+//@ts-ignore
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+        console.log("User exist", user);
+        authWrapper.classList.remove("open");
+        authModals.forEach(function (modal) { return modal.classList.remove("active"); });
+    }
+    else {
+        console.log("No user present");
+        authWrapper.classList.add("open");
+        authModals[0].classList.add("active");
+    }
 });

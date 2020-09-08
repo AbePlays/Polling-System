@@ -23,7 +23,6 @@ registerForm.addEventListener("submit", (e: Event) => {
     .auth()
     .createUserWithEmailAndPassword(email, password)
     .then((user) => {
-      console.log("User registered", user);
       registerForm.reset();
     })
     .catch((e) => {
@@ -42,10 +41,32 @@ loginForm.addEventListener("submit", (e: Event) => {
     .auth()
     .signInWithEmailAndPassword(email, password)
     .then((user) => {
-      console.log("User logged in", user);
       registerForm.reset();
     })
     .catch((e) => {
       loginForm.querySelector(".error").textContent = e.message;
     });
+});
+
+// signout user
+signOut.addEventListener("click", () => {
+  //@ts-ignore
+  firebase
+    .auth()
+    .signOut()
+    .then(() => console.log("Signed Out"));
+});
+
+// listening to auth state changes
+//@ts-ignore
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    console.log("User exist", user);
+    authWrapper.classList.remove("open");
+    authModals.forEach((modal) => modal.classList.remove("active"));
+  } else {
+    console.log("No user present");
+    authWrapper.classList.add("open");
+    authModals[0].classList.add("active");
+  }
 });
