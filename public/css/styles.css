@@ -52,7 +52,8 @@ h1 {
 
 .content {
   max-width: 800px;
-  margin: 40px auto 0;
+  padding: 20px;
+  margin: 10px auto;
 }
 
 /* request list styles */
