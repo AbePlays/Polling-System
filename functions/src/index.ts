@@ -49,7 +49,7 @@ exports.addPoll = functions.https.onCall((data, context) => {
 });
 
 // upvote
-exports.upvote = functions.https.onCall((data, context) => {
+exports.upvote = functions.https.onCall(async (data, context) => {
   if (!context.auth) {
     throw new functions.https.HttpsError(
       "unauthenticated",
@@ -59,24 +59,21 @@ exports.upvote = functions.https.onCall((data, context) => {
   const user = admin.firestore().collection("user").doc(context.auth.uid);
   const request = admin.firestore().collection("requests").doc(data.id);
 
-  return user.get().then((doc) => {
-    //@ts-ignore
-    if (doc.data().upvotedOn.includes(data.id)) {
-      throw new functions.https.HttpsError(
-        "failed-precondition",
-        "You can only upvote once"
-      );
-    }
+  const doc = await user.get();
+  //@ts-ignore
+  if (doc.data().upvotedOn.includes(data.id)) {
+    throw new functions.https.HttpsError(
+      "failed-precondition",
+      "You can only upvote once"
+    );
+  }
 
-    return user
-      .update({
-        //@ts-ignore
-        upvotedOn: [...doc.data().upvotedOn, data.id],
-      })
-      .then(() => {
-        return request.update({
-          upvotes: admin.firestore.FieldValue.increment(1),
-        });
-      });
+  await user.update({
+    //@ts-ignore
+    upvotedOn: [...doc.data().upvotedOn, data.id],
+  });
+
+  return request.update({
+    upvotes: admin.firestore.FieldValue.increment(1),
   });
 });
