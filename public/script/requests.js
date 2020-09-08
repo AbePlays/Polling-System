@@ -28,5 +28,9 @@ ref.onSnapshot(function (snapshot) {
 var upvoteText = function (id) {
     //@ts-ignore
     var upvote = firebase.functions().httpsCallable("upvote");
-    upvote({ id: id })["catch"](function (e) { return console.log(e.message); });
+    upvote({ id: id })["catch"](function (e) {
+        console.log(e.message);
+        //@ts-ignore
+        showNotifs(e.message);
+    });
 };

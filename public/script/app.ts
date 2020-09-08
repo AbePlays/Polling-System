@@ -4,6 +4,18 @@ const requestForm = document.querySelector(
   ".new-request form"
 ) as HTMLFormElement;
 
+// Error notification
+const notifs = document.querySelector(".notification") as HTMLDivElement;
+
+const showNotifs = (message) => {
+  notifs.textContent = message;
+  notifs.classList.add("active");
+  setTimeout(() => {
+    notifs.classList.remove("active");
+    notifs.textContent = "";
+  }, 4000);
+};
+
 // open request modal
 requestLink.addEventListener("click", () => {
   requestModal.classList.add("open");

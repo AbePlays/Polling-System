@@ -3,6 +3,7 @@ const ref = firebase
   .firestore()
   .collection("requests")
   .orderBy("upvotes", "desc");
+
 ref.onSnapshot((snapshot) => {
   let requests = [];
   snapshot.forEach((doc) => {
@@ -28,5 +29,9 @@ ref.onSnapshot((snapshot) => {
 const upvoteText = (id) => {
   //@ts-ignore
   const upvote = firebase.functions().httpsCallable("upvote");
-  upvote({ id: id }).catch((e) => console.log(e.message));
+  upvote({ id: id }).catch((e) => {
+    console.log(e.message);
+    //@ts-ignore
+    showNotifs(e.message);
+  });
 };

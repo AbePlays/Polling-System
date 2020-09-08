@@ -1,6 +1,16 @@
 var requestModal = document.querySelector(".new-request");
 var requestLink = document.querySelector(".add-request");
 var requestForm = document.querySelector(".new-request form");
+// Error notification
+var notifs = document.querySelector(".notification");
+var showNotifs = function (message) {
+    notifs.textContent = message;
+    notifs.classList.add("active");
+    setTimeout(function () {
+        notifs.classList.remove("active");
+        notifs.textContent = "";
+    }, 4000);
+};
 // open request modal
 requestLink.addEventListener("click", function () {
     requestModal.classList.add("open");
