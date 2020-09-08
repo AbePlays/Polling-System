@@ -47,3 +47,36 @@ exports.addPoll = functions.https.onCall((data, context) => {
       throw new functions.https.HttpsError("internal", "request not added");
     });
 });
+
+// upvote
+exports.upvote = functions.https.onCall((data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError(
+      "unauthenticated",
+      "Only authenticated users can add polls"
+    );
+  }
+  const user = admin.firestore().collection("user").doc(context.auth.uid);
+  const request = admin.firestore().collection("requests").doc(data.id);
+
+  return user.get().then((doc) => {
+    //@ts-ignore
+    if (doc.data().upvotedOn.includes(data.id)) {
+      throw new functions.https.HttpsError(
+        "failed-precondition",
+        "You can only upvote once"
+      );
+    }
+
+    return user
+      .update({
+        //@ts-ignore
+        upvotedOn: [...doc.data().upvotedOn, data.id],
+      })
+      .then(() => {
+        return request.update({
+          upvotes: admin.firestore.FieldValue.increment(1),
+        });
+      });
+  });
+});
