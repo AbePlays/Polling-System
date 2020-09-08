@@ -10,7 +10,10 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 //@ts-ignore
-var ref = firebase.firestore().collection("requests");
+var ref = firebase
+    .firestore()
+    .collection("requests")
+    .orderBy("upvotes", "desc");
 ref.onSnapshot(function (snapshot) {
     var requests = [];
     snapshot.forEach(function (doc) {
@@ -18,7 +21,12 @@ ref.onSnapshot(function (snapshot) {
     });
     var html = "";
     requests.forEach(function (request) {
-        html += "\n        <li>\n            <span class=\"text\">" + request.text + "</span>\n            <div>\n                <span class=\"votes\">" + request.upvotes + "</span>\n            <i class=\"material-icons upvote\">arrow_upward</i>\n            </div>\n        </li>\n    ";
+        html += "\n        <li>\n            <span class=\"text\">" + request.text + "</span>\n            <div>\n                <span class=\"votes\">" + request.upvotes + "</span>\n            <i class=\"material-icons upvote\" onClick=\"upvoteText('" + request.id + "')\">arrow_upward</i>\n            </div>\n        </li>\n    ";
     });
     document.querySelector("ul").innerHTML = html;
 });
+var upvoteText = function (id) {
+    //@ts-ignore
+    var upvote = firebase.functions().httpsCallable("upvote");
+    upvote({ id: id })["catch"](function (e) { return console.log(e.message); });
+};

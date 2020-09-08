@@ -1,5 +1,8 @@
 //@ts-ignore
-const ref = firebase.firestore().collection("requests");
+const ref = firebase
+  .firestore()
+  .collection("requests")
+  .orderBy("upvotes", "desc");
 ref.onSnapshot((snapshot) => {
   let requests = [];
   snapshot.forEach((doc) => {
@@ -13,7 +16,7 @@ ref.onSnapshot((snapshot) => {
             <span class="text">${request.text}</span>
             <div>
                 <span class="votes">${request.upvotes}</span>
-            <i class="material-icons upvote">arrow_upward</i>
+            <i class="material-icons upvote" onClick="upvoteText('${request.id}')">arrow_upward</i>
             </div>
         </li>
     `;
@@ -21,3 +24,9 @@ ref.onSnapshot((snapshot) => {
 
   document.querySelector("ul").innerHTML = html;
 });
+
+const upvoteText = (id) => {
+  //@ts-ignore
+  const upvote = firebase.functions().httpsCallable("upvote");
+  upvote({ id: id }).catch((e) => console.log(e.message));
+};
