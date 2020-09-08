@@ -3,6 +3,7 @@ body {
   margin: 0;
   background: #fafafa;
 }
+
 body,
 h1,
 h2,
@@ -10,12 +11,17 @@ p,
 a,
 input {
   color: #555;
-  font-family: Consolas, Arial;
+  font-family: "Cantarell", sans-serif;
   text-decoration: none;
 }
+
 ul {
   margin: 0;
   padding: 0;
+}
+
+.switch:hover {
+  color: rgb(0, 0, 0);
 }
 
 /* header styles */
@@ -30,15 +36,20 @@ header {
 header a {
   margin-left: 10px;
   border-bottom: 2px solid #ffe100;
-  padding: 4px;
+  padding: 5px 10px;
   cursor: pointer;
 }
 header a:hover {
+  border-radius: 5px;
   background: #ffe100;
   color: black;
 }
 
 /* content styles */
+h1 {
+  font-size: 2.5em;
+}
+
 .content {
   max-width: 800px;
   margin: 40px auto 0;
@@ -71,9 +82,9 @@ header a:hover {
 
 /* modal styles */
 .modal {
-  width: 300px;
-  padding: 30px;
-  margin: 100px auto;
+  width: 400px;
+  padding: 60px 30px;
+  margin: 150px auto;
   border-radius: 10px;
   background: white;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
@@ -94,19 +105,27 @@ header a:hover {
 /* form element styles */
 input {
   display: block;
-  margin: 8px 0;
-  padding: 8px 2px;
+  margin: 8px auto;
+  padding: 10px;
   border-width: 0 0 2px 0;
-  width: 100%;
+  width: 80%;
 }
 button {
-  margin-top: 10px;
-  padding: 8px 12px;
-  background: #ffe100;
+  margin-top: 15px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #ffe100;
   border: 0;
   font-weight: bold;
-  font-family: inherit;
+  font-family: "Cantarell", sans-serif;
   cursor: pointer;
+  transition: background-color 200ms ease-in-out;
+}
+button:hover {
+  background-color: #ffec5e;
+}
+.error {
+  color: red;
 }
 
 /* auth styles */
