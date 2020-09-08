@@ -10,10 +10,3 @@ requestModal.addEventListener("click", function (e) {
         requestModal.classList.remove("open");
     }
 });
-// say hello
-var button = document.querySelector(".call");
-button.addEventListener("click", function () {
-    // @ts-ignore
-    var sayHello = firebase.functions().httpsCallable("sayHello");
-    sayHello({ name: "Abe" }).then(function (res) { return console.log(res.data); });
-});
