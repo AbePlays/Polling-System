@@ -33,8 +33,17 @@ exports.addPoll = functions.https.onCall((data, context) => {
     );
   }
 
-  return admin.firestore().collection("requests").add({
-    text: data.text,
-    upvotes: 0,
-  });
+  return admin
+    .firestore()
+    .collection("requests")
+    .add({
+      text: data.text,
+      upvotes: 0,
+    })
+    .then(() => {
+      return "new poll added";
+    })
+    .catch((e) => {
+      throw new functions.https.HttpsError("internal", "request not added");
+    });
 });
