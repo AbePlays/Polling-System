@@ -8,7 +8,15 @@ ref.onSnapshot((snapshot) => {
 
   let html = ``;
   requests.forEach((request) => {
-    html += `<li>${request.text}</li>`;
+    html += `
+        <li>
+            <span class="text">${request.text}</span>
+            <div>
+                <span class="votes">${request.upvotes}</span>
+            <i class="material-icons upvote">arrow_upward</i>
+            </div>
+        </li>
+    `;
   });
 
   document.querySelector("ul").innerHTML = html;

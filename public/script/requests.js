@@ -18,7 +18,7 @@ ref.onSnapshot(function (snapshot) {
     });
     var html = "";
     requests.forEach(function (request) {
-        html += "<li>" + request.text + "</li>";
+        html += "\n        <li>\n            <span class=\"text\">" + request.text + "</span>\n            <div>\n                <span class=\"votes\">" + request.upvotes + "</span>\n            <i class=\"material-icons upvote\">arrow_upward</i>\n            </div>\n        </li>\n    ";
     });
     document.querySelector("ul").innerHTML = html;
 });
